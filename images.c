@@ -27,7 +27,7 @@ int main () {
     printf ("Goodbye!\n");
 return 0;
 }
-
+//Won't compile because the pointers for the actual image row size and column size (called rowsize and colsize) haven't been declared or assigned values yet. Need to use these pointers in the load function with fscanf for the sizes
 int editmenu (int rows, int cols, int theimagearray[][COLS]) {
     int editchoice, cropLcol, cropRcol, cropTrow, cropBrow;
     printf ("**EDITING**\n1: Crop image\n2: Dim image\n3: Brighten image\n0: Return to main menu\nChoose from one of the options above: ");
