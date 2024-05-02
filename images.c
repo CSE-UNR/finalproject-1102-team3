@@ -82,7 +82,6 @@ int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol,
     
 }
 
-//Have to add the display image function when it is created
 void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
@@ -94,7 +93,6 @@ void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, i
 	displayImage(ROWS, COLS, theimagearray, rowPtr, colPtr);
 }
 
-//Have to add the display image function when it is created
 void dimImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
