@@ -9,8 +9,8 @@ void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[]
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
 int editmenu(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
 int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
-void brightenImage(int rows, int cols, int theimagearray[][COLS]);
-void dimImage(int rows, int cols, int theimagearray[][COLS]);
+void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
+void dimImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
 
 int main () {
     int theimagearray[ROWS][COLS], mainchoice, rowsize, colsize;
@@ -69,10 +69,10 @@ int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* c
        
     }
     else if (editchoice == 2) {
-        dimImage(rows, cols, theimagearray);
+        dimImage(rows, cols, theimagearray, rowPtr, colPtr);
     }
     else if (editchoice == 3) {
-        brightenImage(rows, cols, theimagearray);
+        brightenImage(rows, cols, theimagearray, rowPtr, colPtr);
     }
     else if (editchoice == 0) {
         return 0;
@@ -83,7 +83,7 @@ int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol,
 }
 
 //Have to add the display image function when it is created
-void brightenImage(int rows, int cols, int theimagearray[][COLS]){
+void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
 			if(theimagearray[i][j] <= 5){
@@ -91,10 +91,11 @@ void brightenImage(int rows, int cols, int theimagearray[][COLS]){
 			}
 		}
 	}
+	displayImage(ROWS, COLS, theimagearray, rowPtr, colPtr);
 }
 
 //Have to add the display image function when it is created
-void dimImage(int rows, int cols, int theimagearray[][COLS]){
+void dimImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
 			if(theimagearray[i][j] <= 5){
@@ -102,6 +103,7 @@ void dimImage(int rows, int cols, int theimagearray[][COLS]){
 			}
 		}
 	}
+    displayImage(ROWS, COLS, theimagearray, rowPtr, colPtr);
 }
 
 
