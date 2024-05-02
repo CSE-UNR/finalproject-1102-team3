@@ -7,6 +7,8 @@
 
 int editmenu(int rows, int cols, int theimagearray[][COLS]);
 int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcols, int theimagearray[][COLS]);
+void brightenImage(int rows, int cols, int theimagearray[][COLS]);
+void dimImage(int rows, int cols, int theimagearray[][COLS]);
 
 int main () {
     int theimagearray[ROWS][COLS], mainchoice;
@@ -57,3 +59,28 @@ int editmenu (int rows, int cols, int theimagearray[][COLS]) {
 int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol, int theimagearray[][COLS]) {
     
 }
+
+//Have to add the display image function when it is created
+void brightenImage(int rows, int cols, int theimagearray[][COLS]){
+	for(int i = 0; i < rows; i++){
+		for(int j = 0; j < cols; j++){
+			if(theimagearray[i][j] <= 5){
+				theimagearray[i][j] = theimagearray[i][j] + 1;
+			}
+		}
+	}
+}
+
+//Have to add the display image function when it is created
+void dimImage(int rows, int cols, int theimagearray[][COLS]){
+	for(int i = 0; i < rows; i++){
+		for(int j = 0; j < cols; j++){
+			if(theimagearray[i][j] <= 5){
+				theimagearray[i][j] = theimagearray[i][j] - 1;
+			}
+		}
+	}
+}
+
+
+
