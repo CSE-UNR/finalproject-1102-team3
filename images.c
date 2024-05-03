@@ -16,8 +16,9 @@ int main () {
     int theimagearray[ROWS][COLS], mainchoice, rowsize, colsize;
     
     do {
-        printf ("**ERINSTAGRAM**\n1: Load image\n2: Display image\n3: Edit image\n0: Exit\nChoose from one of the options above: ");
-        scanf ("%d", &mainchoice);   
+        printf ("\n**ERINSTAGRAM**\n1: Load image\n2: Display image\n3: Edit image\n0: Exit\nChoose from one of the options above: ");
+        scanf ("%d", &mainchoice);  
+        printf ("\n"); 
         if (mainchoice == 1) {
             
         }
@@ -78,8 +79,16 @@ int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* c
         return 0;
     }
 }
+//Using a pointer to point to the starting memory address of the cropped size(upper left corner) of the array, maybe need to use pointer arithmetic? Then print the array until the ending size (bottom right corner).
 int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
-    
+    int *croppedPtr = &theimagearray[newTrow][newLcol];
+    for (int i=0; i < newBrow; i++) {
+        for (int j=0; j < newRcol; j++) {
+            theimagearray[i][j];
+            printf ("%d", *croppedPtr);
+        }
+    }
+    printf("\n");
 }
 
 void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr){
