@@ -46,6 +46,7 @@ void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[]
 	}
 	fscanf(fp, "%s", fileName);
 	
+	
 }
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
     for (int i=0; i < *rowPtr; i++) {
