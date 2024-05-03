@@ -4,6 +4,7 @@
 #include <stdio.h>
 #define ROWS 500
 #define COLS 500
+#define FILE_NAME_CAP 20
 
 void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]);
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
@@ -34,7 +35,16 @@ int main () {
 return 0;
 }
 void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]) {
-
+	char fileName[FILE_NAME_CAP];
+	FILE* fp;
+	printf("What is the name of the image file? ");
+	scanf("%s", fileName);
+	fp = fopen(fileName, "r");
+	if(fp = NULL){
+		printf("Could not find an image with that filename.\n");
+	}
+	fscanf(fp, "%s", fileName);
+	
 }
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
     for (int i=0; i < *rowPtr; i++) {
@@ -49,7 +59,7 @@ int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* c
     printf ("**EDITING**\n1: Crop image\n2: Dim image\n3: Brighten image\n0: Return to main menu\nChoose from one of the options above: ");
     scanf ("%d", &editchoice);
     if (editchoice == 1) {
-       printf ("\nImage height: \nImage width: \nThe row and columns start at 1 in the upper lefthand corner.\nWhich column do you want to be the new left side? ");
+       printf ("\nImage height: \nImage width: \nThe row and columns start at 1 in the upper lefthand corner.\nWhich column do you want to be the new left side?");
        scanf ("%d", &cropLcol);
        printf ("Which column do you want to be the new right side? ");
        scanf ("%d", &cropRcol);
