@@ -35,17 +35,26 @@ int main () {
     printf ("Goodbye!\n");
 return 0;
 }
+
+//Check loadImageTest.c for code
 void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]) {
-	char fileName[FILE_NAME_CAP];
+	int i = 0;
+	char fileName[FILE_NAME_CAP], imageString[ROWS][COLS];
 	FILE* fp;
+	
 	printf("What is the name of the image file? ");
 	scanf("%s", fileName);
 	fp = fopen(fileName, "r");
 	if(fp = NULL){
 		printf("Could not find an image with that filename.\n");
+		return 0;
 	}
-	fscanf(fp, "%s", fileName);
-	
+
+	while(fscanf(fp, "%s", fileName) != NULL){
+		if (fgets(imageString[i], COLS, fp) != NULL){
+			i++;
+		)
+	}
 	
 }
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
