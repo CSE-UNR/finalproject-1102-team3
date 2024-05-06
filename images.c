@@ -21,7 +21,7 @@ int main () {
         scanf ("%d", &mainchoice);  
         printf ("\n"); 
         if (mainchoice == 1) {
-            
+            loadImage(&rowsize, &colsize, ROWS, COLS, theimagearray);
         }
         else if (mainchoice == 2) {
             displayImage(ROWS, COLS, theimagearray, &rowsize, &colsize);
@@ -45,17 +45,17 @@ int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][
 	printf("What is the name of the image file? ");
 	scanf("%s", fileName);
 	fp = fopen(fileName, "r");
-	if(fp = NULL){
+	if(fp == NULL){
 		printf("Could not find an image with that filename.\n");
 		return 0;
 	}
-//commented out this loop so code would compile. cannot compare pointer to integer 'null'
-//	while(fscanf(fp, "%s", fileName) != NULL){
-		if (fgets(imageString[i], COLS, fp) != NULL){
-			i++;
-		}
-//}
-	
+    
+        for (int i=0; i<ROWS; i++) {
+            for (int j=0; j<COLS; j++) {
+                fscanf(fp, "%d", &theimagearray[i][j]);
+           }
+        }
+    return 0;
 }
 
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
