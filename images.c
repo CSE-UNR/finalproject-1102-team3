@@ -6,7 +6,7 @@
 #define COLS 500
 #define FILE_NAME_CAP 20
 
-void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]);
+int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]);
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
 int editmenu(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
 int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
@@ -37,7 +37,7 @@ return 0;
 }
 
 //Check loadImageTest.c for code
-void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]) {
+int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]) {
 	int i = 0;
 	char fileName[FILE_NAME_CAP], imageString[ROWS][COLS];
 	FILE* fp;
@@ -49,14 +49,15 @@ void loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[]
 		printf("Could not find an image with that filename.\n");
 		return 0;
 	}
-
-	while(fscanf(fp, "%s", fileName) != NULL){
+//commented out this loop so code would compile. cannot compare pointer to integer 'null'
+//	while(fscanf(fp, "%s", fileName) != NULL){
 		if (fgets(imageString[i], COLS, fp) != NULL){
 			i++;
-		)
-	}
+		}
+//}
 	
 }
+
 void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
     for (int i=0; i < *rowPtr; i++) {
         for (int j=0; j < *colPtr; j++) {
@@ -64,7 +65,7 @@ void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, in
         }
     }
 }
-//Won't compile because the pointers for the actual image row size and column size (called rowsize and colsize) haven't been declared or assigned values yet. Need to use these pointers in the load function with fscanf for the sizes
+
 int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
     int editchoice, cropLcol, cropRcol, cropTrow, cropBrow;
     printf ("**EDITING**\n1: Crop image\n2: Dim image\n3: Brighten image\n0: Return to main menu\nChoose from one of the options above: ");
