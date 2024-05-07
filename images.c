@@ -39,7 +39,7 @@ return 0;
 //Check loadImageTest.c for code
 int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]) {
 	int i = 0;
-	char fileName[FILE_NAME_CAP], imageString[ROWS][COLS];
+	char fileName[FILE_NAME_CAP], imageString[1000];
 	FILE* fp;
 	
 	printf("What is the name of the image file? ");
@@ -50,11 +50,7 @@ int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][
 		return 0;
 	}
     
-        for (int i=0; i<ROWS; i++) {
-            for (int j=0; j<COLS; j++) {
-                fscanf(fp, "%d", &theimagearray[i][j]);
-           }
-        }
+    
     return 0;
 }
 
