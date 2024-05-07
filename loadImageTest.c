@@ -41,8 +41,8 @@ int main(){
 		return 0;
 	}
 	
-	for(int i = 0; i < numRows; i++){
-		for(int j = 0; j < numCols; j++){
+	for(int i = 0; i <= numRows; i++){
+		for(int j = 0; j <= numCols; j++){
 			fscanf(fp, "%c", &imageArray[i][j]);
 			printf("%c", imageArray[i][j]);
 		} 
