@@ -50,7 +50,7 @@ int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][
 		return 0;
 	}
     
-    
+    printf ("Image successfully loaded!\n");
     return 0;
 }
 
@@ -63,7 +63,8 @@ void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, in
 }
 
 int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
-    int editchoice, cropLcol, cropRcol, cropTrow, cropBrow;
+    int editchoice, savechoice, cropLcol, cropRcol, cropTrow, cropBrow;
+    char newfilename[25];
     printf ("**EDITING**\n1: Crop image\n2: Dim image\n3: Brighten image\n0: Return to main menu\nChoose from one of the options above: ");
     scanf ("%d", &editchoice);
     if (editchoice == 1) {
@@ -94,6 +95,16 @@ int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* c
     }
     else if (editchoice == 0) {
         return 0;
+    }
+    printf ("Would you like to save your new image to a file(1 for yes, 2 for no)? ");
+    scanf ("%d", &savechoice);
+    if (savechoice == 0) {
+        return 0;
+    }
+    else if (savechoice ==1) {
+        printf ("What would you like the name of the new file to be? ");
+        scanf ("%s", &newfilename);
+// put file io for file output, copy from project 8  
     }
 }
 //Using a pointer to point to the starting memory address of the cropped size(upper left corner) of the array, maybe need to use pointer arithmetic? Then print the array until the ending size (bottom right corner).
