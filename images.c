@@ -117,7 +117,7 @@ int editmenu (int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* 
     printf ("**EDITING**\n1: Crop image\n2: Dim image\n3: Brighten image\n0: Return to main menu\nChoose from one of the options above: ");
     scanf ("%d", &editchoice);
     if (editchoice == 1) {
-       printf ("\nImage height: %d\nImage width: %d\nThe row and columns start at 1 in the upper lefthand corner.\nWhich column do you want to be the new left side?", *rowPtr, *colPtr);
+       printf ("\nImage height: %d\nImage width: %d\nThe row and columns start at 1 in the upper lefthand corner.\nWhich column do you want to be the new left side? ", *rowPtr, *colPtr);
        scanf ("%d", &cropLcol);
        printf ("Which column do you want to be the new right side? ");
        scanf ("%d", &cropRcol);
@@ -169,13 +169,29 @@ int editmenu (int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* 
 }
 //Using a pointer to point to the starting memory address of the cropped size(upper left corner) of the array, maybe need to use pointer arithmetic? Then print the array until the ending size (bottom right corner).
 int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol, char theimagearray[][COLS], int* rowPtr, int* colPtr) {
-    char *croppedPtr = &theimagearray[newTrow][newLcol];
-    for (int i=0; i < newBrow; i++) {
-        for (int j=0; j < newRcol; j++) {
-            theimagearray[i][j];
-            printf ("%c", *croppedPtr);
+    char dArray[newTrow][newLcol];
+    int rowShift, colShift, rowDim;
+    
+    rowDim = newBrow - newTrow;
+    colDim = newRcol - newLcol;
+    
+    for (int i=0; i < rowDim; i++) {
+        for (int j=0; j < colDim; j++) {
+            dArray[i][j] = theimagearray[i][j];
+            
         }
     }
+    
+    rowShift = *rowPtr - newBrow;
+    colShift = *colPtr - newRcol;
+    
+    for (int i=0; i < newBrow; i++) {
+        for (int j=0; j < newRcol; j++) {
+            theimagearray[i][j] = dArray[i + rowShift][j + colShift];
+            
+        }
+    }
+    
     printf("\n");
 }
 
