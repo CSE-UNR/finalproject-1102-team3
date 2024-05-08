@@ -57,11 +57,8 @@ int loadImage(int* rowPtr, int* colPtr, int rows, int cols, char theimagearray[]
 			numElements = numElements - 1;
 		}
 	}
-	numElements = numElements + 1;
-	printf("Number of elements: %d\n", numElements);
-	printf("Number of rows: %d\n", rowtally);
+	numElements++;
 	coltally = (numElements / rowtally)-1;
-	printf("Number of Columns: %d\n", coltally);
 	*rowPtr = rowtally;
 	*colPtr = coltally;
 	fclose(fp);
@@ -101,7 +98,7 @@ int loadImage(int* rowPtr, int* colPtr, int rows, int cols, char theimagearray[]
 		    }
 	    }
     }
-		
+	fclose (fp);	
     printf ("\nImage successfully loaded!\n");
     return 0;
 }
@@ -120,7 +117,7 @@ int editmenu (int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* 
     printf ("**EDITING**\n1: Crop image\n2: Dim image\n3: Brighten image\n0: Return to main menu\nChoose from one of the options above: ");
     scanf ("%d", &editchoice);
     if (editchoice == 1) {
-       printf ("\nImage height: \nImage width: \nThe row and columns start at 1 in the upper lefthand corner.\nWhich column do you want to be the new left side?");
+       printf ("\nImage height: %d\nImage width: %d\nThe row and columns start at 1 in the upper lefthand corner.\nWhich column do you want to be the new left side?", *rowPtr, *colPtr);
        scanf ("%d", &cropLcol);
        printf ("Which column do you want to be the new right side? ");
        scanf ("%d", &cropRcol);
@@ -156,8 +153,19 @@ int editmenu (int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* 
     else if (savechoice ==1) {
         printf ("What would you like the name of the new file to be? ");
         scanf ("%s", &newfilename);
-// put file io for file output, copy from project 8  
+        FILE* savePtr; 
+        savePtr = fopen (newfilename, "w");
+        if (savePtr == NULL) { 
+            printf ("Error saving file\n");
+        }
+//need to fix printing the 2d array to a file            
+//            fprintf (savePtr, theimagearray);
+            fclose (savePtr);
     }
+    else{
+        return 0;
+    }
+    return 0;
 }
 //Using a pointer to point to the starting memory address of the cropped size(upper left corner) of the array, maybe need to use pointer arithmetic? Then print the array until the ending size (bottom right corner).
 int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol, char theimagearray[][COLS], int* rowPtr, int* colPtr) {
@@ -174,9 +182,26 @@ int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol,
 void brightenImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
-			if(theimagearray[i][j] <= 5){
-				theimagearray[i][j] = theimagearray[i][j] + 1;
-			}
+			switch (theimagearray[i][j]) {    
+			    case '\n': 
+		            theimagearray[i][j] = '\n';
+		        break;
+		        case ' ':
+		            theimagearray[i][j] = '.';
+		        break;
+		        case '.': 
+		            theimagearray[i][j] = 'o';
+		        break;
+		        case 'o':
+		            theimagearray[i][j] = 'O';
+		        break;
+		        case 'O':
+		            theimagearray[i][j] = '0';
+		        break;
+		        case '0':
+		            theimagearray[i][j] = '0';
+		        break;
+		    }
 		}
 	}
 	displayImage(ROWS, COLS, theimagearray, rowPtr, colPtr);
@@ -185,9 +210,26 @@ void brightenImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, 
 void dimImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
-			if(theimagearray[i][j] <= 5){
-				theimagearray[i][j] = theimagearray[i][j] - 1;
-			}
+			switch (theimagearray[i][j]) {    
+			    case '\n': 
+		            theimagearray[i][j] = '\n';
+		        break;
+		        case ' ':
+		            theimagearray[i][j] = ' ';
+		        break;
+		        case '.': 
+		            theimagearray[i][j] = ' ';
+		        break;
+		        case 'o':
+		            theimagearray[i][j] = '.';
+		        break;
+		        case 'O':
+		            theimagearray[i][j] = 'o';
+		        break;
+		        case '0':
+		            theimagearray[i][j] = 'O';
+		        break;
+		    }
 		}
 	}
     displayImage(ROWS, COLS, theimagearray, rowPtr, colPtr);
