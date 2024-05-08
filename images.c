@@ -158,12 +158,12 @@ int editmenu (int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* 
         if (savePtr == NULL) { 
             printf ("Error saving file\n");
         }
-//need to fix printing the 2d array to a file            
-//            fprintf (savePtr, theimagearray);
-            fclose (savePtr);
-    }
-    else{
-        return 0;
+        for (int i=0; i <= *rowPtr; i++) {
+            for (int j=0; j <= *colPtr; j++) {
+                fprintf (savePtr, "%c", theimagearray[i][j]);
+            }
+        }
+        fclose (savePtr);
     }
     return 0;
 }
@@ -173,7 +173,7 @@ int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol,
     for (int i=0; i < newBrow; i++) {
         for (int j=0; j < newRcol; j++) {
             theimagearray[i][j];
-            printf ("%d", *croppedPtr);
+            printf ("%c", *croppedPtr);
         }
     }
     printf("\n");
