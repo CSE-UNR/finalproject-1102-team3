@@ -4,17 +4,18 @@
 #include <stdio.h>
 #define ROWS 500
 #define COLS 500
-#define FILE_NAME_CAP 20
+#define FILE_NAME_CAP 25
 
-int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]);
-void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
-int editmenu(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
-int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
-void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
-void dimImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr);
+int loadImage(int* rowPtr, int* colPtr, int rows, int cols, char theimagearray[][COLS]);
+void displayImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr);
+int editmenu(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr);
+int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcols, char theimagearray[][COLS], int* rowPtr, int* colPtr);
+void brightenImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr);
+void dimImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr);
 
 int main () {
-    int theimagearray[ROWS][COLS], mainchoice, rowsize, colsize;
+    char theimagearray[ROWS][COLS];
+    int mainchoice, rowsize=0, colsize=0;
     
     do {
         printf ("\n**ERINSTAGRAM**\n1: Load image\n2: Display image\n3: Edit image\n0: Exit\nChoose from one of the options above: ");
@@ -37,9 +38,9 @@ return 0;
 }
 
 //Check loadImageTest.c for code
-int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][COLS]) {
-	int i = 0;
-	char fileName[FILE_NAME_CAP], imageString[1000];
+int loadImage(int* rowPtr, int* colPtr, int rows, int cols, char theimagearray[][COLS]) {
+	int numElements = 0, rowtally=1, coltally=1;
+	char fileName[FILE_NAME_CAP], ch, loadArray[ROWS][COLS];
 	FILE* fp;
 	
 	printf("What is the name of the image file? ");
@@ -49,20 +50,71 @@ int loadImage(int* rowPtr, int* colPtr, int rows, int cols, int theimagearray[][
 		printf("Could not find an image with that filename.\n");
 		return 0;
 	}
-    
-    printf ("Image successfully loaded!\n");
+    while(fscanf(fp, "%c", &ch) == 1) {	
+		numElements++;
+		if(ch == '\n'){
+			rowtally++;
+			numElements = numElements - 1;
+		}
+	}
+	numElements = numElements + 1;
+	printf("Number of elements: %d\n", numElements);
+	printf("Number of rows: %d\n", rowtally);
+	coltally = (numElements / rowtally)-1;
+	printf("Number of Columns: %d\n", coltally);
+	*rowPtr = rowtally;
+	*colPtr = coltally;
+	fclose(fp);
+	
+	fp = fopen(fileName, "r");
+	if(fp == NULL){
+		printf("Could not find an image with that filename.\n");
+		return 0;
+	} 
+	for(int i = 0; i <= *rowPtr; i++){
+		for(int j = 0; j <= *colPtr; j++){
+			fscanf(fp, "%c", &loadArray[i][j]);
+		} 
+	}
+	
+	for(int r = 0; r <= *rowPtr; r++){
+		for(int c = 0; c <= *colPtr; c++) {
+		    switch (loadArray[r][c]) {
+		        case '\n': 
+		            theimagearray[r][c] = '\n';
+		        break;
+		        case '0':
+		            theimagearray[r][c] = ' ';
+		        break;
+		        case '1': 
+		            theimagearray[r][c] = '.';
+		        break;
+		        case '2':
+		            theimagearray[r][c] = 'o';
+		        break;
+		        case '3':
+		            theimagearray[r][c] = 'O';
+		        break;
+		        case '4':
+		            theimagearray[r][c] = '0';
+		        break;
+		    }
+	    }
+    }
+		
+    printf ("\nImage successfully loaded!\n");
     return 0;
 }
 
-void displayImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
-    for (int i=0; i < *rowPtr; i++) {
-        for (int j=0; j < *colPtr; j++) {
-            printf ("%d", theimagearray[i][j]);
+void displayImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr) {
+    for (int i=0; i <= *rowPtr; i++) {
+        for (int j=0; j <= *colPtr; j++) {
+            printf ("%c", theimagearray[i][j]);
         }
     }
 }
 
-int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
+int editmenu (int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr) {
     int editchoice, savechoice, cropLcol, cropRcol, cropTrow, cropBrow;
     char newfilename[25];
     printf ("**EDITING**\n1: Crop image\n2: Dim image\n3: Brighten image\n0: Return to main menu\nChoose from one of the options above: ");
@@ -96,7 +148,7 @@ int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* c
     else if (editchoice == 0) {
         return 0;
     }
-    printf ("Would you like to save your new image to a file(1 for yes, 2 for no)? ");
+    printf ("\nWould you like to save your new image to a file(1 for yes, 2 for no)? ");
     scanf ("%d", &savechoice);
     if (savechoice == 0) {
         return 0;
@@ -108,8 +160,8 @@ int editmenu (int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* c
     }
 }
 //Using a pointer to point to the starting memory address of the cropped size(upper left corner) of the array, maybe need to use pointer arithmetic? Then print the array until the ending size (bottom right corner).
-int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol, int theimagearray[][COLS], int* rowPtr, int* colPtr) {
-    int *croppedPtr = &theimagearray[newTrow][newLcol];
+int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol, char theimagearray[][COLS], int* rowPtr, int* colPtr) {
+    char *croppedPtr = &theimagearray[newTrow][newLcol];
     for (int i=0; i < newBrow; i++) {
         for (int j=0; j < newRcol; j++) {
             theimagearray[i][j];
@@ -119,7 +171,7 @@ int crop(int rows, int cols, int newTrow, int newBrow, int newLcol, int newRcol,
     printf("\n");
 }
 
-void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr){
+void brightenImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
 			if(theimagearray[i][j] <= 5){
@@ -130,7 +182,7 @@ void brightenImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, i
 	displayImage(ROWS, COLS, theimagearray, rowPtr, colPtr);
 }
 
-void dimImage(int rows, int cols, int theimagearray[][COLS], int* rowPtr, int* colPtr){
+void dimImage(int rows, int cols, char theimagearray[][COLS], int* rowPtr, int* colPtr){
 	for(int i = 0; i < rows; i++){
 		for(int j = 0; j < cols; j++){
 			if(theimagearray[i][j] <= 5){
